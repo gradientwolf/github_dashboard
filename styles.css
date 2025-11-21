@@ -63,9 +63,35 @@ body {
 }
 
 .username {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
     color: #586069;
     font-size: 14px;
     margin: 2px 0 8px 0;
+}
+
+.user-handle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.user-icon {
+    width: 16px;
+    height: 16px;
+    fill: #586069;
+    flex-shrink: 0;
+}
+
+.handle-text {
+    color: #24292e;
+    font-weight: 600;
+}
+
+.separator {
+    color: #6a737d;
 }
 
 .follow-info {
@@ -75,9 +101,14 @@ body {
 }
 
 .stat-line {
-    display: flex;
+    display: grid;
+    grid-template-columns: 12ch 14px 18ch 18ch 20ch;
     align-items: center;
-    gap: 6px;
+    column-gap: 14px;
+}
+
+.stat-text {
+    display: contents;
 }
 
 .stat-icon {
@@ -85,6 +116,56 @@ body {
     height: 16px;
     fill: #586069;
     flex-shrink: 0;
+}
+
+.followers-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.followers-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #586069;
+}
+
+.following-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.following-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #586069;
+}
+
+.repos-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.repos-icon {
+    width: 20px;
+    height: 20px;
+    stroke: #586069;
+}
+
+.stat-user {
+    color: #24292e;
+    font-weight: 600;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.stat-marker {
+    color: #6a737d;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .stat-text strong {

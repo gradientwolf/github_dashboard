@@ -172,19 +172,8 @@ class GitHubDashboard {
             });
         }
 
-        const usernamesLine = usersData.map(user => `@${user.login}`).join(' · ');
-        if (profileNameEl) {
-            profileNameEl.textContent = usersData.length === 1
-                ? (usersData[0].name || usersData[0].login)
-                : 'GitHub Activity Dashboard';
-        }
-
-        if (profileUsernameEl) {
-            profileUsernameEl.textContent = usernamesLine;
-        }
-
         const githubIconSvg = `
-            <svg class="stat-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <svg class="user-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 
                 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
                 -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2
@@ -195,11 +184,48 @@ class GitHubDashboard {
             </svg>
         `;
 
+        const usernamesLine = usersData
+            .map(user => `<span class="user-handle">${githubIconSvg}<span class="handle-text">${user.login}</span></span>`)
+            .join('<span class="separator">·</span>');
+        if (profileNameEl) {
+            profileNameEl.textContent = usersData.length === 1
+                ? (usersData[0].name || usersData[0].login)
+                : 'GitHub Activity Dashboard';
+        }
+
+        if (profileUsernameEl) {
+            profileUsernameEl.innerHTML = usernamesLine;
+        }
+
         const buildStatLine = (user) => {
-            const followers = `<strong>${user.followers || 0}</strong> followers`;
-            const following = `<strong>${user.following || 0}</strong> following`;
-            const repos = `<strong>${user.public_repos || 0}</strong> repositories`;
-            return `${githubIconSvg}<span class="stat-text">${followers}, ${following} & ${repos} for ${user.login}</span>`;
+            const followersIcon = `
+                <svg class="followers-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <circle cx="8" cy="5" r="2.1"></circle>
+                    <path d="M4.2 11.3 Q 8 9.4 11.8 11.3 Q 10.9 8.8 8 8.8 Q 5.1 8.8 4.2 11.3Z"></path>
+                </svg>
+            `;
+            const followers = `<span class="followers-meta">${followersIcon}<strong>${user.followers || 0}</strong> followers</span>`;
+            const followingIcon = `
+                <svg class="following-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <circle cx="6" cy="5" r="2"></circle>
+                    <path d="M2.6 11.2 Q 6 9.4 9.4 11.2 Q 8.7 9 6 9 Q 3.3 9 2.6 11.2Z"></path>
+                    <path d="M9.5 8.3H13.3"></path>
+                    <path d="M11.6 6.8L13.3 8.3L11.6 9.8"></path>
+                </svg>
+            `;
+            const following = `<span class="following-meta">${followingIcon}<strong>${user.following || 0}</strong> following</span>`;
+            const reposIcon = `
+                <svg class="repos-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M2.7 5.1L5.4 3.7L8 5.1L5.3 6.5L2.7 5.1Z"></path>
+                    <path d="M8 5.1L10.6 3.7L13.3 5.1L10.7 6.5L8 5.1Z"></path>
+                    <path d="M5.3 6.5V10.8 Q 5.3 11.3 5.8 11.3H10.2 Q 10.7 11.3 10.7 10.8V6.5"></path>
+                    <path d="M8 11.3V6.5"></path>
+                </svg>
+            `;
+            const repos = `<span class="repos-meta">${reposIcon}<strong>${user.public_repos || 0}</strong> repositories</span>`;
+            const userTag = `<span class="stat-user">${user.login}</span>`;
+            const marker = `<span class="stat-marker">&#x25C9;</span>`;
+            return `<span class="stat-text">${userTag}${marker}${followers}${following}${repos}</span>`;
         };
 
         const summaries = usersData.map(buildStatLine);
@@ -473,7 +499,7 @@ class GitHubDashboard {
 
                 const username = document.createElement('div');
                 username.className = 'pill-username';
-                username.textContent = `@${user.login}`;
+                username.textContent = `${user.login}`;
 
                 const role = document.createElement('div');
                 role.className = 'pill-role';
@@ -649,7 +675,7 @@ class GitHubDashboard {
             const count = perUserCounts[user.login] || 0;
             if (count > 0) {
                 const label = count === 1 ? 'contribution' : 'contributions';
-                lines.push(`@${user.login}: ${count} ${label}`);
+                lines.push(`${user.login}: ${count} ${label}`);
             }
         });
 
@@ -692,7 +718,7 @@ class GitHubDashboard {
         const avatarStack = this.qs('#profile-avatar-stack');
 
         if (nameEl) nameEl.textContent = 'Error loading profile';
-        if (usernameEl) usernameEl.textContent = '@unknown';
+        if (usernameEl) usernameEl.textContent = 'unknown';
         if (followInfoEl) {
             followInfoEl.textContent = 'Profile stats unavailable';
             followInfoEl.style.display = 'block';
@@ -801,7 +827,7 @@ class GitHubDashboard {
 
             const handle = document.createElement('div');
             handle.className = 'user-handle';
-            handle.textContent = `@${user.login}`;
+            handle.textContent = `${user.login}`;
 
             const activity = document.createElement('div');
             activity.className = 'user-activity';
