@@ -222,7 +222,7 @@ class GitHubDashboard {
                     <path d="M8 11.3V6.5"></path>
                 </svg>
             `;
-            const repos = `<span class="repos-meta">${reposIcon}<strong>${user.public_repos || 0}</strong> repositories</span>`;
+            const repos = `<span class="repos-meta">${reposIcon}<strong>${user.public_repos || 0}</strong> public repos</span>`;
             const userTag = `<span class="stat-user">${user.login}</span>`;
             const marker = `<span class="stat-marker">&#x25C9;</span>`;
             return `<span class="stat-text">${userTag}${marker}${followers}${following}${repos}</span>`;
