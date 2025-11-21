@@ -4,4 +4,5 @@ This tiny project aims to make a dashboard for displaying Github activities from
 
 
 Current revision: 0.1b
+
 Date of revision: 2025-11-21

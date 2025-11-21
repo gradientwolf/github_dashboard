@@ -74,6 +74,24 @@ body {
     margin-bottom: 8px;
 }
 
+.stat-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-icon {
+    width: 16px;
+    height: 16px;
+    fill: #586069;
+    flex-shrink: 0;
+}
+
+.stat-text strong {
+    font-weight: 600;
+    color: #24292e;
+}
+
 .bio {
     font-size: 14px;
     color: #24292e;
